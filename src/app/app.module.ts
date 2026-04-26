@@ -33,7 +33,7 @@ import { HomeComponent } from './home';
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
         ...(environment.production ? [] : [
-            fakeBackendProvider
+            // fakeBackendProvider
         ])
     ],
     bootstrap: [AppComponent]
