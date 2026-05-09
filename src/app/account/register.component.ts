@@ -52,8 +52,19 @@ export class RegisterComponent implements OnInit {
         this.accountService.register(this.form.value)
             .pipe(first())
             .subscribe({
-                next: () => {
-                    this.alertService.success('Registration successful, please check your email for verification instructions', { keepAfterRouteChange: true });
+                next: (result: any) => {
+                    if (result?.verificationUrl) {
+                        this.alertService.info(
+                            `<h4>Verification Link</h4>
+                            <p>Your email provider may be disabled on the hosting environment.</p>
+                            <p>Please click the link below to verify your email address:</p>
+                            <p><a href="${result.verificationUrl}">${result.verificationUrl}</a></p>`,
+                            { autoClose: false, keepAfterRouteChange: true }
+                        );
+                    } else {
+                        this.alertService.success('Registration successful, please check your email for verification instructions', { keepAfterRouteChange: true });
+                    }
+
                     this.router.navigate(['../login'], { relativeTo: this.route });
                 },
                 error: error => {
